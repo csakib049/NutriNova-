@@ -9,4 +9,16 @@ export default defineConfig({
       '/api': 'https://nutrinova-backend.onrender.com',
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Separates third-party libraries into a vendor bundle
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
 })
