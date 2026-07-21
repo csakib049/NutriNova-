@@ -12,8 +12,8 @@ import LogMeal from './pages/LogMeal';
 import WeeklyCheckIn from './pages/WeeklyCheckIn';
 import Progress from './pages/Progress';
 import AIAssistant from './pages/AIAssistant';
+import FoodDetails from './pages/FoodDetails';
 import Profile from './pages/Profile';
-
 export default function App() {
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ export default function App() {
             <Route path="/bmi" element={<ProtectedRoute><BMICalculator /></ProtectedRoute>} />
             <Route path="/meal-plan" element={<ProtectedRoute><MealPlan /></ProtectedRoute>} />
             <Route path="/log-meal" element={<ProtectedRoute><LogMeal /></ProtectedRoute>} />
+            <Route path="/food-details" element={<ProtectedRoute><FoodDetails /></ProtectedRoute>} />
             <Route path="/checkin" element={<ProtectedRoute><WeeklyCheckIn /></ProtectedRoute>} />
             <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
             <Route path="/ai-assistant" element={<ProtectedRoute><AIAssistant /></ProtectedRoute>} />

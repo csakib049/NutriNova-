@@ -9,6 +9,7 @@ const foodItemSchema = new mongoose.Schema({
   servingSize: { type: String, default: '100g' },
   servingWeight: { type: Number, default: 100 },
   glycemicIndex: { type: Number, min: 0, max: 100 },
+  icon: { type: String, default: 'Utensils' },
   category: { type: String, default: 'general' },
   isLowGlycemic: { type: Boolean, default: false },
   source: { type: String, default: 'manual' },

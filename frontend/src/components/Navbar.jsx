@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Navbar() {
@@ -18,13 +18,14 @@ export default function Navbar() {
             <Link to="/" className="text-xl font-bold">Nutrinova</Link>
             {user && (
               <>
-                <Link to="/dashboard" className="hover:text-green-200">Dashboard</Link>
-                <Link to="/bmi" className="hover:text-green-200">BMI</Link>
-                <Link to="/meal-plan" className="hover:text-green-200">Meal Plan</Link>
-                <Link to="/log-meal" className="hover:text-green-200">Log Meal</Link>
-                <Link to="/checkin" className="hover:text-green-200">Check-In</Link>
-                <Link to="/progress" className="hover:text-green-200">Progress</Link>
-                <Link to="/ai-assistant" className="hover:text-green-200">AI</Link>
+                <NavLink to="/dashboard" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Dashboard</NavLink>
+                <NavLink to="/bmi" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>BMI</NavLink>
+                <NavLink to="/meal-plan" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Meal Plan</NavLink>
+                <NavLink to="/log-meal" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Log Meal</NavLink>
+                <NavLink to="/food-details" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Food Details</NavLink>
+                <NavLink to="/checkin" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Check-In</NavLink>
+                <NavLink to="/progress" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>Progress</NavLink>
+                <NavLink to="/ai-assistant" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-green-900 text-white' : 'hover:text-green-200'}`}>AI</NavLink>
               </>
             )}
           </div>
