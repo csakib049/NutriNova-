@@ -20,6 +20,15 @@ router.get('/search', auth, async (req, res, next) => {
   }
 });
 
+router.get('/', auth, async (req, res, next) => {
+  try {
+    const foods = await FoodItem.find().sort({ category: 1, name: 1 }).lean();
+    res.json({ foods });
+  } catch (error) {
+    next(error);
+  }
+});
+
 const foodCreateValidation = [
   body('name').trim().notEmpty().withMessage('Name is required'),
   body('calories').isFloat({ min: 0 }).withMessage('Calories must be >= 0'),

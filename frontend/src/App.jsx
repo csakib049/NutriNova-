@@ -12,8 +12,8 @@ import LogMeal from './pages/LogMeal';
 import WeeklyCheckIn from './pages/WeeklyCheckIn';
 import Progress from './pages/Progress';
 import AIAssistant from './pages/AIAssistant';
+import FoodDetails from './pages/FoodDetails';
 import Profile from './pages/Profile';
-
 export default function App() {
   return (
     <BrowserRouter>
