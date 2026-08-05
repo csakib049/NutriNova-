@@ -177,7 +177,7 @@ export default function Dashboard() {
       <div className="bg-surface p-6 rounded-xl shadow-md mt-8">
         <div className="flex items-center gap-2 mb-4">
           <LucideTv className="h-5 w-5 text-brand" />
-          <h2 className="text-xl font-semibold">Exercise & Diet Videos</h2>
+          <h2 className="text-xl font-semibold">Diet Videos </h2>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
           {VIDEOS.map((video) => (
