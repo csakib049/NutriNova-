@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import api from '../api/axios';
+import { useAnimVariants } from '../lib/motion';
+import { ForkKnife, Search, ListPlus, ClipboardList } from 'lucide-react';
 
 export default function LogMeal() {
+  const { fadeUpSmall, staggerList } = useAnimVariants();
   const [search, setSearch] = useState('');
   const [foods, setFoods] = useState([]);
   const [selectedFoods, setSelectedFoods] = useState([]);
@@ -78,19 +82,25 @@ export default function LogMeal() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-green-800 mb-8">Log a Meal</h1>
+      <div className="flex items-center gap-2 mb-8">
+        <ForkKnife className="h-7 w-7 text-brand" />
+        <h1 className="text-3xl font-bold text-brand">Log a Meal</h1>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-4">
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Search & Add Foods</h2>
+          <div className="bg-surface p-6 rounded-xl shadow-md">
+            <div className="flex items-center gap-2 mb-4">
+              <Search className="h-5 w-5 text-brand" />
+              <h2 className="text-xl font-semibold">Search & Add Foods</h2>
+            </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-1">Date</label>
+              <label className="block text-muted mb-1">Date</label>
               <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
                 className="w-full p-2 border rounded-lg" />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-1">Meal Type</label>
+              <label className="block text-muted mb-1">Meal Type</label>
               <select value={mealType} onChange={(e) => setMealType(e.target.value)}
                 className="w-full p-2 border rounded-lg">
                 {['breakfast', 'lunch', 'dinner', 'snack'].map((t) => (
@@ -99,78 +109,88 @@ export default function LogMeal() {
               </select>
             </div>
             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search foods..." className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+              placeholder="Search foods..." className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
             {foods.length > 0 && (
-              <ul className="mt-2 max-h-48 overflow-y-auto border rounded-lg">
+              <motion.ul className="mt-2 max-h-48 overflow-y-auto border rounded-lg" variants={staggerList} initial="hidden" animate="visible">
                 {foods.map((food) => (
-                  <li key={food._id} onClick={() => addFood(food)}
-                    className="p-2 hover:bg-green-50 cursor-pointer border-b last:border-0 flex justify-between text-sm">
+                  <motion.li key={food._id} variants={fadeUpSmall} onClick={() => addFood(food)}
+                    className="p-2 hover:bg-brand-soft cursor-pointer border-b last:border-0 flex justify-between text-sm">
                     <span>{food.name}</span>
-                    <span className="text-gray-500">{food.calories} cal / 100g</span>
-                  </li>
+                    <span className="text-muted">{food.calories} cal / 100g</span>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             )}
           </div>
 
           {selectedFoods.length > 0 && (
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-xl font-semibold mb-4">Selected Foods</h2>
-              {selectedFoods.map((f) => (
-                <div key={f.foodItemId} className="flex items-center gap-2 mb-2">
-                  <span className="flex-1 text-sm">{f.name}</span>
-                  <input type="number" value={f.quantity} onChange={(e) => updateQuantity(f.foodItemId, Number(e.target.value))}
-                    className="w-20 p-1 border rounded text-sm" min={10} />
-                  <span className="text-xs text-gray-500 w-16 text-right">{Math.round(f.calories * f.quantity / 100)} cal</span>
-                  <button onClick={() => removeSelected(f.foodItemId)} className="text-red-500 text-sm">✕</button>
-                </div>
-              ))}
+            <div className="bg-surface p-6 rounded-xl shadow-md">
+              <div className="flex items-center gap-2 mb-4">
+                <ListPlus className="h-5 w-5 text-brand" />
+                <h2 className="text-xl font-semibold">Selected Foods</h2>
+              </div>
+              <motion.ul variants={staggerList} initial="hidden" animate="visible">
+                {selectedFoods.map((f) => (
+                  <motion.li key={f.foodItemId} variants={fadeUpSmall} className="flex items-center gap-2 mb-2">
+                    <span className="flex-1 text-sm">{f.name}</span>
+                    <input type="number" value={f.quantity} onChange={(e) => updateQuantity(f.foodItemId, Number(e.target.value))}
+                      className="w-20 p-1 border rounded text-sm" min={10} />
+                    <span className="text-xs text-muted w-16 text-right">{Math.round(f.calories * f.quantity / 100)} cal</span>
+                    <button onClick={() => removeSelected(f.foodItemId)} className="text-red-500 dark:text-red-400 text-sm">✕</button>
+                  </motion.li>
+                ))}
+              </motion.ul>
               <div className="border-t pt-2 mt-2 text-sm font-semibold">
                 Total: {totalCals} cal · P:{totalProt}g · C:{totalCarbs}g · F:{totalFat}g
               </div>
-              <button onClick={handleSubmit} className="w-full bg-green-700 text-white p-2 rounded-lg mt-3 hover:bg-green-800">Log Meal</button>
-              {error && <div className="bg-red-100 text-red-700 p-2 rounded mt-2 text-sm">{error}</div>}
-              {success && <div className="bg-green-100 text-green-700 p-2 rounded mt-2 text-sm">{success}</div>}
+              <button onClick={handleSubmit} className="w-full bg-brand text-brand-contrast p-2 rounded-lg mt-3 hover:bg-brand-hover">Log Meal</button>
+              {error && <div className="bg-danger-bg text-danger-strong p-2 rounded mt-2 text-sm">{error}</div>}
+              {success && <div className="bg-success-bg text-success-strong p-2 rounded mt-2 text-sm">{success}</div>}
             </div>
           )}
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Today's Summary ({new Date(date).toLocaleDateString()})</h2>
+        <div className="bg-surface p-6 rounded-xl shadow-md">
+          <div className="flex items-center gap-2 mb-4">
+            <ClipboardList className="h-5 w-5 text-brand" />
+            <h2 className="text-xl font-semibold">Today's Summary ({new Date(date).toLocaleDateString()})</h2>
+          </div>
           {dailySummary ? (
             <>
               <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="p-3 bg-green-50 rounded text-center">
-                  <div className="text-2xl font-bold text-green-700">{dailySummary.calories}</div>
-                  <div className="text-sm text-gray-500">Calories</div>
+                <div className="p-3 bg-brand-soft rounded text-center">
+                  <div className="text-2xl font-bold text-brand">{dailySummary.calories}</div>
+                  <div className="text-sm text-muted">Calories</div>
                 </div>
-                <div className="p-3 bg-green-50 rounded text-center">
-                  <div className="text-2xl font-bold text-green-700">{dailySummary.protein}g</div>
-                  <div className="text-sm text-gray-500">Protein</div>
+                <div className="p-3 bg-brand-soft rounded text-center">
+                  <div className="text-2xl font-bold text-brand">{dailySummary.protein}g</div>
+                  <div className="text-sm text-muted">Protein</div>
                 </div>
-                <div className="p-3 bg-green-50 rounded text-center">
-                  <div className="text-2xl font-bold text-green-700">{dailySummary.carbs}g</div>
-                  <div className="text-sm text-gray-500">Carbs</div>
+                <div className="p-3 bg-brand-soft rounded text-center">
+                  <div className="text-2xl font-bold text-brand">{dailySummary.carbs}g</div>
+                  <div className="text-sm text-muted">Carbs</div>
                 </div>
-                <div className="p-3 bg-green-50 rounded text-center">
-                  <div className="text-2xl font-bold text-green-700">{dailySummary.fat}g</div>
-                  <div className="text-sm text-gray-500">Fat</div>
+                <div className="p-3 bg-brand-soft rounded text-center">
+                  <div className="text-2xl font-bold text-brand">{dailySummary.fat}g</div>
+                  <div className="text-sm text-muted">Fat</div>
                 </div>
               </div>
-              {dailyLogs.map((log) => (
-                <div key={log._id} className="mb-3 p-3 bg-gray-50 rounded">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span className="capitalize">{log.mealType}</span>
-                    <span>{log.totalCalories} cal</span>
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {log.foodItems.map((f) => `${f.name} (${f.quantity}g)`).join(', ')}
-                  </div>
-                </div>
-              ))}
+              <motion.div variants={staggerList} initial="hidden" animate="visible">
+                {dailyLogs.map((log) => (
+                  <motion.div key={log._id} variants={fadeUpSmall} className="mb-3 p-3 bg-surface-alt rounded">
+                    <div className="flex justify-between text-sm font-medium">
+                      <span className="capitalize">{log.mealType}</span>
+                      <span>{log.totalCalories} cal</span>
+                    </div>
+                    <div className="text-xs text-muted">
+                      {log.foodItems.map((f) => `${f.name} (${f.quantity}g)`).join(', ')}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </>
           ) : (
-            <p className="text-gray-500">No meals logged for this day.</p>
+            <p className="text-muted">No meals logged for this day.</p>
           )}
         </div>
       </div>

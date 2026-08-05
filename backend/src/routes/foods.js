@@ -32,9 +32,12 @@ router.get('/', auth, async (req, res, next) => {
 const foodCreateValidation = [
   body('name').trim().notEmpty().withMessage('Name is required'),
   body('calories').isFloat({ min: 0 }).withMessage('Calories must be >= 0'),
-  body('protein').isFloat({ min: 0 }).withMessage('Protein must be >= 0'),
-  body('carbs').isFloat({ min: 0 }).withMessage('Carbs must be >= 0'),
-  body('fat').isFloat({ min: 0 }).withMessage('Fat must be >= 0'),
+  body('protein').optional().isFloat({ min: 0 }).withMessage('Protein must be >= 0'),
+  body('carbs').optional().isFloat({ min: 0 }).withMessage('Carbs must be >= 0'),
+  body('fat').optional().isFloat({ min: 0 }).withMessage('Fat must be >= 0'),
+  body('fiber').optional().isFloat({ min: 0 }).withMessage('Fiber must be >= 0'),
+  body('sugar').optional().isFloat({ min: 0 }).withMessage('Sugar must be >= 0'),
+  body('sodium').optional().isFloat({ min: 0 }).withMessage('Sodium must be >= 0'),
 ];
 
 router.post('/', auth, foodCreateValidation, async (req, res, next) => {
@@ -42,6 +45,11 @@ router.post('/', auth, foodCreateValidation, async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ error: 'Validation failed', details: errors.array() });
+    }
+
+    const existing = await FoodItem.findOne({ name: { $regex: `^${req.body.name}$`, $options: 'i' } }).lean();
+    if (existing) {
+      return res.status(409).json({ error: 'A food item with this name already exists', existing: existing._id });
     }
 
     const food = await FoodItem.create(req.body);

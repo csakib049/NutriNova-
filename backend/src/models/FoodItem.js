@@ -12,6 +12,9 @@ const foodItemSchema = new mongoose.Schema({
   icon: { type: String, default: 'Utensils' },
   category: { type: String, default: 'general' },
   isLowGlycemic: { type: Boolean, default: false },
+  fiber: { type: Number, default: 0 },
+  sugar: { type: Number, default: 0 },
+  sodium: { type: Number, default: 0 },
   source: { type: String, default: 'manual' },
 }, { timestamps: true });
 
