@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Flame, CircleGauge, LucideWeight, Droplet, Calculator, ClipboardList, ForkKnife, CalendarCheck, Activity, LucideTv } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import ExerciseSection from '../components/ExerciseSection';
 import api from '../api/axios';
 import { useAnimVariants } from '../lib/motion';
 import { useCountUp } from '../lib/useCountUp';
@@ -185,6 +186,8 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+
+      <ExerciseSection />
     </div>
   );
 }

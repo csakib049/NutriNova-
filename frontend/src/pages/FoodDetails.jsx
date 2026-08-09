@@ -11,7 +11,7 @@ export default function FoodDetails() {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     name: '', servingSize: '100g', calories: '', protein: '', carbs: '', fat: '',
-    fiber: '', sugar: '', sodium: '', category: 'general', icon: 'Utensils',
+    fiber: '', sugar: '', sodium: '', category: 'general', icon: 'Utensils', imageUrl: '',
   });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState('');
@@ -64,11 +64,12 @@ export default function FoodDetails() {
         sodium: Number(formData.sodium || 0),
         category: formData.category || 'general',
         icon: formData.icon || 'Utensils',
+        imageUrl: formData.imageUrl.trim(),
       };
       const res = await api.post('/foods', payload);
       setFoods((prev) => [...prev, res.data.food]);
       setShowModal(false);
-      setFormData({ name: '', servingSize: '100g', calories: '', protein: '', carbs: '', fat: '', fiber: '', sugar: '', sodium: '', category: 'general', icon: 'Utensils' });
+      setFormData({ name: '', servingSize: '100g', calories: '', protein: '', carbs: '', fat: '', fiber: '', sugar: '', sodium: '', category: 'general', icon: 'Utensils', imageUrl: '' });
     } catch (err) {
       if (err.response?.status === 409) {
         setFormError('A food item with this name already exists. Please use a different name.');
@@ -164,6 +165,11 @@ export default function FoodDetails() {
                       <option value="snacks">Snacks</option>
                     </select>
                   </div>
+                </div>
+                <div>
+                  <label className="block text-muted mb-1">Image URL (optional)</label>
+                  <input type="url" name="imageUrl" value={formData.imageUrl} onChange={handleChange} placeholder="https://..."
+                    className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>

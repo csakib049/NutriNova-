@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Apple, Beef, Fish, Milk, Salad, Wheat, Cookie, Bean, Leaf, Droplet, Egg, Utensils } from 'lucide-react';
 
 const iconMap = {
@@ -6,9 +7,25 @@ const iconMap = {
 
 export default function FoodDetailCard({ food }) {
   const IconComponent = iconMap[food.icon] || Utensils;
+  const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  const showImage = Boolean(food.imageUrl) && !imgError;
 
   return (
     <div className="bg-surface p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+      {showImage && (
+        <div className={`relative -mx-6 -mt-6 mb-4 aspect-[16/9] overflow-hidden rounded-t-xl bg-surface-alt ${imgLoaded ? '' : 'animate-pulse'}`}>
+          <img
+            src={food.imageUrl}
+            alt={food.name}
+            loading="lazy"
+            onLoad={() => setImgLoaded(true)}
+            onError={() => { setImgError(true); setImgLoaded(false); }}
+            className={`w-full h-full object-cover ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+          />
+        </div>
+      )}
       <div className="flex items-center gap-3 mb-4">
         <div className="bg-brand-soft p-3 rounded-full">
           <IconComponent className="h-6 w-6 text-brand" />
