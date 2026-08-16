@@ -89,8 +89,8 @@ npm run seed
 
 This populates 50+ food items with realistic calorie/macro data.
 
-### 4. Start the app
 
+### 4. Start the app
 ```bash
 # Terminal 1: Backend
 cd server
