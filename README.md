@@ -1,5 +1,6 @@
 # Nutrinova
 
+
 AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 
 ## Tech Stack
