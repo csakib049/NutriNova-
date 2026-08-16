@@ -38,6 +38,7 @@ const foodCreateValidation = [
   body('fiber').optional().isFloat({ min: 0 }).withMessage('Fiber must be >= 0'),
   body('sugar').optional().isFloat({ min: 0 }).withMessage('Sugar must be >= 0'),
   body('sodium').optional().isFloat({ min: 0 }).withMessage('Sodium must be >= 0'),
+  body('imageUrl').optional().trim().isURL().withMessage('Image URL must be a valid URL'),
 ];
 
 router.post('/', auth, foodCreateValidation, async (req, res, next) => {

@@ -16,6 +16,7 @@ const foodItemSchema = new mongoose.Schema({
   sugar: { type: Number, default: 0 },
   sodium: { type: Number, default: 0 },
   source: { type: String, default: 'manual' },
+  imageUrl: { type: String, default: '' },
 }, { timestamps: true });
 
 foodItemSchema.index({ name: 'text' });

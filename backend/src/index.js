@@ -47,7 +47,18 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Nutrinova server running on port ${PORT}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\nPort ${PORT} is already in use.`);
+      console.error(`Find the process using it: lsof -i :${PORT}`);
+      console.error('Then either kill it ("kill <pid>") or change PORT in the .env file, and restart.');
+      process.exit(1);
+    }
+    console.error('Server error:', err);
+    process.exit(1);
   });
 });
