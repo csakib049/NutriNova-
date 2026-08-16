@@ -11,7 +11,6 @@ AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 - **AI:** Rule-based nutrition engine with optional LLM API integration
 
 ## Features
-
 - JWT-based authentication (signup/login)
 - BMI calculator with WHO category classification and history
 - Personalized diet/meal plan generator (BMR → TDEE → macros → weekly plan)
