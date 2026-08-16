@@ -3,7 +3,6 @@
 AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 
 ## Tech Stack
-
 - **Frontend:** React (Vite), React Router, Axios, Recharts, Tailwind CSS
 - **Backend:** Node.js + Express.js (REST API)
 - **Database:** MongoDB with Mongoose ODM
@@ -25,6 +24,7 @@ AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 - Goal setting with estimated timeline
 - Searchable food database with 50+ seeded items
 - Responsive UI (mobile + desktop)
+
 
 ## Project Structure
 
