@@ -23,6 +23,8 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bmi', bmiRoutes);
@@ -38,10 +40,25 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+app.get('/', (req, res) => {
+  res.send('NutriNova API is running!');
+});
+
 app.use(errorHandler);
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Nutrinova server running on port ${PORT}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\nPort ${PORT} is already in use.`);
+      console.error(`Find the process using it: lsof -i :${PORT}`);
+      console.error('Then either kill it ("kill <pid>") or change PORT in the .env file, and restart.');
+      process.exit(1);
+    }
+    console.error('Server error:', err);
+    process.exit(1);
   });
 });

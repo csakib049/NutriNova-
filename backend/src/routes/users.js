@@ -16,7 +16,7 @@ router.put('/me', auth, profileUpdateValidation, async (req, res, next) => {
       return res.status(400).json({ error: 'Validation failed', details: errors.array() });
     }
 
-    const allowed = ['name', 'age', 'gender', 'height', 'weight', 'activityLevel', 'hasDiabetes', 'goal', 'targetWeight'];
+    const allowed = ['name', 'age', 'gender', 'height', 'weight', 'activityLevel', 'hasDiabetes', 'diabetesStatus', 'goal', 'targetWeight'];
     for (const field of allowed) {
       if (req.body[field] !== undefined) {
         req.user[field] = req.body[field];

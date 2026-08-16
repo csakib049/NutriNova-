@@ -1,5 +1,35 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="relative w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-nav-text"
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={theme}
+          initial={{ rotate: -90, opacity: 0, scale: 0.6 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={{ rotate: 90, opacity: 0, scale: 0.6 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="inline-flex"
+        >
+          {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </motion.span>
+      </AnimatePresence>
+    </button>
+  );
+}
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -11,33 +41,38 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-green-700 text-white shadow-lg">
+    <nav className="bg-nav-bg text-nav-text shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center gap-6">
-            <Link to="/" className="text-xl font-bold">Nutrinova</Link>
+            <Link to="/" className="flex items-center gap-2">
+              <img src="/nutrinova-logo.png" alt="Nutrinova logo" className="h-10 w-10 rounded-full object-cover" />
+              <span className="text-xl font-bold">Nutrinova</span>
+            </Link>
             {user && (
               <>
-                <Link to="/dashboard" className="hover:text-green-200">Dashboard</Link>
-                <Link to="/bmi" className="hover:text-green-200">BMI</Link>
-                <Link to="/meal-plan" className="hover:text-green-200">Meal Plan</Link>
-                <Link to="/log-meal" className="hover:text-green-200">Log Meal</Link>
-                <Link to="/checkin" className="hover:text-green-200">Check-In</Link>
-                <Link to="/progress" className="hover:text-green-200">Progress</Link>
-                <Link to="/ai-assistant" className="hover:text-green-200">AI</Link>
+                <NavLink to="/dashboard" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Dashboard</NavLink>
+                <NavLink to="/bmi" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>BMI</NavLink>
+                <NavLink to="/meal-plan" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Meal Plan</NavLink>
+                <NavLink to="/log-meal" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Log Meal</NavLink>
+                <NavLink to="/food-details" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Food Details</NavLink>
+                <NavLink to="/checkin" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Weekly Check-In</NavLink>
+                <NavLink to="/progress" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Progress</NavLink>
+                <NavLink to="/ai-assistant" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>AI</NavLink>
               </>
             )}
           </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             {user ? (
               <>
-                <Link to="/profile" className="hover:text-green-200">{user.name}</Link>
-                <button onClick={handleLogout} className="bg-green-800 px-3 py-1 rounded hover:bg-green-900">Logout</button>
+                <Link to="/profile" className="hover:text-nav-hover">{user.name}</Link>
+                <button onClick={handleLogout} className="bg-nav-active px-3 py-1 rounded hover:bg-black/25">Logout</button>
               </>
             ) : (
               <>
-                <Link to="/login" className="hover:text-green-200">Login</Link>
-                <Link to="/signup" className="bg-green-800 px-3 py-1 rounded hover:bg-green-900">Sign Up</Link>
+                <Link to="/login" className="hover:text-nav-hover">Login</Link>
+                <Link to="/signup" className="bg-nav-active px-3 py-1 rounded hover:bg-black/25">Sign Up</Link>
               </>
             )}
           </div>

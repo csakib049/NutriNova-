@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     default: 'sedentary',
   },
   hasDiabetes: { type: Boolean, default: false },
+  diabetesStatus: {
+    type: String,
+    enum: ['No Diabetes', 'Pre-Diabetic', 'Type 1 Diabetes', 'Type 2 Diabetes', 'Gestational Diabetes'],
+    default: 'No Diabetes',
+  },
   goal: { type: String, enum: ['lose', 'gain', 'maintain'], default: 'maintain' },
   targetWeight: { type: Number, min: 10, max: 500 },
   dailyWaterTarget: { type: Number, default: 2000 },

@@ -1,10 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Bot } from 'lucide-react';
 import api from '../api/axios';
+
+function TypingDots() {
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    return (
+      <div className="flex gap-1">
+        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+        <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex gap-1">
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="w-2 h-2 bg-gray-400 rounded-full"
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.15 }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function AIAssistant() {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const reduce = useReducedMotion();
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages, loading]);
 
   const suggestions = [
     'What should I eat if my glucose is high today?',
@@ -33,53 +68,64 @@ export default function AIAssistant() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-green-800 mb-4">AI Diet Assistant</h1>
-      <p className="text-gray-500 mb-6">Ask me anything about diet, nutrition, and your health plan.</p>
+      <div className="flex items-center gap-2 mb-4">
+        <Bot className="h-7 w-7 text-brand" />
+        <h1 className="text-3xl font-bold text-brand">AI Diet Assistant</h1>
+      </div>
+      <p className="text-muted mb-6">Ask me anything about diet, nutrition, and your health plan.</p>
 
-      <div className="bg-white rounded-xl shadow-md mb-4 p-4 h-96 overflow-y-auto">
-        {messages.length === 0 && (
-          <div className="text-gray-400 text-center py-16">
-            <p className="mb-4">Try asking:</p>
-            <div className="space-y-2">
-              {suggestions.map((s) => (
-                <button key={s} onClick={() => handleAsk(s)}
-                  className="block w-full text-left p-2 bg-gray-50 rounded hover:bg-green-50 text-sm">
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-        {messages.map((msg, i) => (
-          <div key={i} className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-            <div className={`inline-block p-3 rounded-lg max-w-[80%] ${msg.role === 'user' ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-800'}`}>
-              <p className="text-sm">{msg.content}</p>
-              {msg.source && msg.source !== 'error' && (
-                <span className="text-xs opacity-70 mt-1 block">{msg.source === 'ai' ? 'Powered by AI' : 'Rule-based'}</span>
-              )}
-            </div>
-          </div>
-        ))}
-        {loading && (
-          <div className="text-left mb-4">
-            <div className="inline-block p-3 rounded-lg bg-gray-100">
-              <div className="animate-pulse flex gap-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+      <div ref={listRef} className="bg-surface rounded-xl shadow-md mb-4 p-4 h-96 overflow-y-auto">
+        <AnimatePresence initial={false}>
+          {messages.length === 0 && !loading && (
+            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="text-muted text-center py-16">
+              <p className="mb-4">Try asking:</p>
+              <div className="space-y-2">
+                {suggestions.map((s) => (
+                  <button key={s} onClick={() => handleAsk(s)}
+                    className="block w-full text-left p-2 bg-surface-alt rounded hover:bg-brand-soft text-sm">
+                    {s}
+                  </button>
+                ))}
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+          {messages.map((msg, i) => (
+            <motion.div
+              key={`${i}-${msg.role}`}
+              initial={{ opacity: 0, x: reduce ? 0 : (msg.role === 'user' ? 20 : -20) }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}
+            >
+              <div className={`inline-block p-3 rounded-lg max-w-[80%] ${msg.role === 'user' ? 'bg-brand text-brand-contrast' : 'bg-surface-alt text-foreground'}`}>
+                <p className="text-sm">{msg.content}</p>
+                {msg.source && msg.source !== 'error' && (
+                  <span className="text-xs opacity-70 mt-1 block">{msg.source === 'ai' ? 'Powered by AI' : 'Rule-based'}</span>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        <AnimatePresence>
+          {loading && (
+            <motion.div key="typing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="text-left mb-4">
+              <div className="inline-block p-3 rounded-lg bg-surface-alt">
+                <TypingDots />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="flex gap-2">
         <input type="text" value={question} onChange={(e) => setQuestion(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
           placeholder="Ask a question about diet or nutrition..."
-          className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+          className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
         <button onClick={() => handleAsk()} disabled={loading || !question.trim()}
-          className="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 disabled:opacity-50">
+          className="bg-brand text-brand-contrast px-6 py-3 rounded-lg hover:bg-brand-hover disabled:opacity-50">
           Ask
         </button>
       </div>

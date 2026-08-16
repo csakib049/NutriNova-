@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.PROD ? 'https://nutrinova-backend.onrender.com/api' : '/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
