@@ -5,8 +5,8 @@ const weeklyCheckInSchema = new mongoose.Schema({
   weekStartDate: { type: Date, required: true },
   weight: { type: Number, required: true },
   bmi: { type: Number, required: true },
-  glucose: { type: Number, required: true },
-  diabetesStatus: { type: String, default: '' },
+  glucose: { type: Number, default: null },
+  diabetesStatus: { type: String, default: 'No Diabetes' },
   notes: { type: String, default: '' },
   trend: {
     weight: { type: String, enum: ['improved', 'worsened', 'stable'], default: 'stable' },

@@ -18,7 +18,8 @@ const bmiValidation = [
 
 const checkInValidation = [
   body('weight').isFloat({ min: 10, max: 500 }).withMessage('Weight must be between 10-500 kg'),
-  body('glucose').isFloat({ min: 20, max: 600 }).withMessage('Glucose must be between 20-600 mg/dL'),
+  body('glucose').optional({ values: 'null' }).isFloat({ min: 20, max: 600 }).withMessage('Glucose must be between 20-600 mg/dL'),
+  body('diabetesStatus').optional().trim().notEmpty().withMessage('Diabetes status is required'),
 ];
 
 const foodLogValidation = [
@@ -42,6 +43,7 @@ const profileUpdateValidation = [
   body('weight').optional().isFloat({ min: 10, max: 500 }),
   body('activityLevel').optional().isIn(['sedentary', 'light', 'moderate', 'active', 'very_active']),
   body('hasDiabetes').optional().isBoolean(),
+  body('diabetesStatus').optional().isIn(['No Diabetes', 'Pre-Diabetic', 'Type 1 Diabetes', 'Type 2 Diabetes', 'Gestational Diabetes']),
   body('goal').optional().isIn(['lose', 'gain', 'maintain']),
   body('targetWeight').optional().isFloat({ min: 10, max: 500 }),
 ];

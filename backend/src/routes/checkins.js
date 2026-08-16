@@ -25,7 +25,7 @@ function computeTrend(current, previous) {
 }
 
 function computeGlucoseTrend(current, previous) {
-  if (!previous) return 'stable';
+  if (current == null || !previous) return 'stable';
   const diff = current - previous;
   if (Math.abs(diff) < 5) return 'stable';
   return diff < 0 ? 'improved' : 'worsened';
@@ -38,7 +38,7 @@ router.post('/weekly', auth, checkInValidation, async (req, res, next) => {
       return res.status(400).json({ error: 'Validation failed', details: errors.array() });
     }
 
-    const { weight, glucose, diabetesStatus, notes } = req.body;
+    const { weight, glucose = null, diabetesStatus = 'No Diabetes', notes } = req.body;
     const height = req.body.height || req.user.height;
     if (!height) return res.status(400).json({ error: 'Height is required for BMI calculation' });
 

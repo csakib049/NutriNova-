@@ -1,1 +1,116 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --page: #f9fafb;
+  --surface: #ffffff;
+  --surface-alt: #f3f4f6;
+  --border: #e5e7eb;
+  --foreground: #111827;
+  --muted: #4b5563;
+  --brand: #15803d;
+  --brand-hover: #166534;
+  --brand-contrast: #ffffff;
+  --brand-soft: #f0fdf4;
+  --success: #15803d;
+  --success-strong: #166534;
+  --success-bg: #dcfce7;
+  --danger: #dc2626;
+  --danger-strong: #b91c1c;
+  --danger-bg: #fee2e2;
+  --neutral: #6b7280;
+  --warning-bg: #fefce8;
+  --warning-text: #854d0e;
+  --nav-bg: #15803d;
+  --nav-text: #ffffff;
+  --nav-active: #14532d;
+  --nav-hover: #bbf7d0;
+  --ring: #22c55e;
+}
+
+.dark {
+  --page: #121212;
+  --surface: #1e1e1e;
+  --surface-alt: #2a2a2a;
+  --border: #333333;
+  --foreground: #f3f4f6;
+  --muted: #9ca3af;
+  --brand: #4ade80;
+  --brand-hover: #86efac;
+  --brand-contrast: #052e16;
+  --brand-soft: #052e16;
+  --success: #86efac;
+  --success-strong: #bbf7d0;
+  --success-bg: #052e16;
+  --danger: #f87171;
+  --danger-strong: #fca5a5;
+  --danger-bg: #450a0a;
+  --neutral: #9ca3af;
+  --warning-bg: #422006;
+  --warning-text: #fde047;
+  --nav-bg: #0f2416;
+  --nav-text: #e7f5ec;
+  --nav-active: rgba(255, 255, 255, 0.16);
+  --nav-hover: #bbf7d0;
+  --ring: #4ade80;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-contrast: var(--brand-contrast);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-success-strong: var(--success-strong);
+  --color-success-bg: var(--success-bg);
+  --color-danger: var(--danger);
+  --color-danger-strong: var(--danger-strong);
+  --color-danger-bg: var(--danger-bg);
+  --color-neutral: var(--neutral);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-text: var(--warning-text);
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-text: var(--nav-text);
+  --color-nav-active: var(--nav-active);
+  --color-nav-hover: var(--nav-hover);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--page);
+    color: var(--foreground);
+  }
+  html {
+    color-scheme: light;
+  }
+  input,
+  select,
+  textarea {
+    background-color: var(--surface);
+    color: var(--foreground);
+    border-color: var(--border);
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted);
+    opacity: 1;
+  }
+  select option {
+    background-color: var(--surface);
+    color: var(--foreground);
+  }
+}

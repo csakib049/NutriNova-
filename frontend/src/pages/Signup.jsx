@@ -27,31 +27,31 @@ export default function Signup() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-center text-green-800 mb-8">Create Account</h1>
-      {error && <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>}
+      <h1 className="text-3xl font-bold text-center text-brand mb-8">Create Account</h1>
+      {error && <div className="bg-danger-bg text-danger-strong p-3 rounded mb-4">{error}</div>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-gray-700 mb-1">Name</label>
+          <label className="block text-muted mb-1">Name</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} required
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
         </div>
         <div>
-          <label className="block text-gray-700 mb-1">Email</label>
+          <label className="block text-muted mb-1">Email</label>
           <input type="email" name="email" value={form.email} onChange={handleChange} required
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
         </div>
         <div>
-          <label className="block text-gray-700 mb-1">Password</label>
+          <label className="block text-muted mb-1">Password</label>
           <input type="password" name="password" value={form.password} onChange={handleChange} required minLength={6}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" />
+            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-ring outline-none" />
         </div>
         <button type="submit" disabled={loading}
-          className="w-full bg-green-700 text-white p-3 rounded-lg hover:bg-green-800 disabled:opacity-50">
+          className="w-full bg-brand text-brand-contrast p-3 rounded-lg hover:bg-brand-hover disabled:opacity-50">
           {loading ? 'Creating account...' : 'Sign Up'}
         </button>
       </form>
-      <p className="text-center mt-4 text-gray-600">
-        Already have an account? <Link to="/login" className="text-green-700 hover:underline">Login</Link>
+      <p className="text-center mt-4 text-muted">
+        Already have an account? <Link to="/login" className="text-brand hover:underline">Login</Link>
       </p>
     </div>
   );
