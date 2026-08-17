@@ -1,0 +1,36 @@
+```
+└── 📁frontend
+    └── 📁public
+        ├── favicon.svg
+        ├── icons.svg
+    └── 📁src
+        └── 📁api
+            ├── axios.js
+        └── 📁components
+            ├── Navbar.jsx
+            ├── ProtectedRoute.jsx
+        └── 📁context
+            ├── AuthContext.jsx
+        └── 📁pages
+            ├── AIAssistant.jsx
+            ├── BMICalculator.jsx
+            ├── Dashboard.jsx
+            ├── Landing.jsx
+            ├── Login.jsx
+            ├── LogMeal.jsx
+            ├── MealPlan.jsx
+            ├── Profile.jsx
+            ├── Progress.jsx
+            ├── Signup.jsx
+            ├── WeeklyCheckIn.jsx
+        ├── App.jsx
+        ├── index.css
+        ├── main.jsx
+    ├── .gitignore
+    ├── .oxlintrc.json
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    ├── README.md
+    └── vite.config.js
+```
