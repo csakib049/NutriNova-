@@ -3,6 +3,8 @@
 
 AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 
+
+
 🔗 **Live Demo:** [https://nutrinova-frontend.onrender.com/](https://nutrinova-frontend.onrender.com/)
 
 ## Tech Stack
