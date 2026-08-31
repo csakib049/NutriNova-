@@ -15,6 +15,7 @@ const foodRoutes = require('./routes/foods');
 const aiRoutes = require('./routes/ai');
 const waterRoutes = require('./routes/water');
 const exportRoutes = require('./routes/export');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,6 +36,7 @@ app.use('/api/foods', foodRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/water', waterRoutes);
 app.use('/api/export', exportRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

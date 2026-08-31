@@ -1,0 +1,40 @@
+```
+└── 📁backend
+    └── 📁src
+        └── 📁config
+            ├── db.js
+        └── 📁middleware
+            ├── auth.js
+            ├── errorHandler.js
+        └── 📁models
+            ├── BMIRecord.js
+            ├── FoodItem.js
+            ├── FoodLog.js
+            ├── MealPlan.js
+            ├── User.js
+            ├── WaterLog.js
+            ├── WeeklyCheckIn.js
+        └── 📁routes
+            ├── ai.js
+            ├── auth.js
+            ├── bmi.js
+            ├── checkins.js
+            ├── export.js
+            ├── foodLogs.js
+            ├── foods.js
+            ├── mealPlan.js
+            ├── users.js
+            ├── water.js
+        └── 📁utils
+            ├── mealPlanner.js
+            ├── nutritionEngine.js
+        └── 📁validators
+            ├── index.js
+        ├── index.js
+    ├── .env
+    ├── .env.example
+    ├── .gitignore
+    ├── package-lock.json
+    ├── package.json
+    └── seed.js
+```

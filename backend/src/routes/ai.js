@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const WeeklyCheckIn = require('../models/WeeklyCheckIn');
 const FoodLog = require('../models/FoodLog');
+const { askGemini } = require('../utils/geminiClient');
 
 const router = express.Router();
 
@@ -42,6 +43,18 @@ router.post('/ask', auth, async (req, res, next) => {
       } : null,
       todayCalories,
     };
+
+    const systemPrompt = `You are a helpful dietitian assistant. The user has the following profile: ${JSON.stringify(context.user)}. Their recent glucose was ${context.recentCheckIn?.glucose || 'unknown'}. They've consumed ${context.todayCalories} calories today. Provide concise, practical diet advice.`;
+
+    try {
+      const geminiAnswer = await askGemini(systemPrompt, question);
+      if (geminiAnswer) {
+        return res.json({ answer: geminiAnswer, source: 'gemini' });
+      }
+      console.warn('[Gemini] No answer returned, falling back');
+    } catch (err) {
+      console.error(`[Gemini] Request error: ${err.message}, falling back`);
+    }
 
     const apiKey = process.env.AI_API_KEY;
     const apiUrl = process.env.AI_API_URL;
@@ -168,7 +181,7 @@ function generateLocalAnswer(question, context) {
     if (user.hasDiabetes) {
       return 'Since you have diabetes, focus on low-glycemic foods like leafy greens, whole grains, lean proteins, and healthy fats. Avoid sugary drinks and refined carbs. Consider eating smaller, more frequent meals to keep blood sugar stable.';
     }
-    return 'Maintain a balanced diet with moderate carbohydrate intake. Include fiber-rich foods to help regulate blood sugar levels.';
+    return 'Certain plant-based and high-fiber foods, healthy fats, and proteins help stabilize and lower blood sugar naturally by slowing digestion and improving insulin sensitivity.';
   }
 
   if (q.includes('calorie') || q.includes('eat today') || q.includes('how much')) {
