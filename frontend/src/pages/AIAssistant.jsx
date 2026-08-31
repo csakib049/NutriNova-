@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Bot } from 'lucide-react';
 import api from '../api/axios';
+import ReactMarkdown from 'react-markdown';
 
 function TypingDots() {
   const reduce = useReducedMotion();
@@ -46,6 +47,10 @@ export default function AIAssistant() {
     'How many calories should I eat for weight loss?',
     'What are good diabetes-friendly meals?',
     'Give me a healthy snack idea',
+    'What foods help lower blood sugar naturally?',
+    'How much water should I drink daily?',
+    'What is a balanced breakfast for diabetics?',
+    'Which foods are high in protein and low in carbs?',
   ];
 
   const handleAsk = async (q) => {
@@ -99,9 +104,15 @@ export default function AIAssistant() {
               className={`mb-4 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}
             >
               <div className={`inline-block p-3 rounded-lg max-w-[80%] ${msg.role === 'user' ? 'bg-brand text-brand-contrast' : 'bg-surface-alt text-foreground'}`}>
-                <p className="text-sm">{msg.content}</p>
+                {msg.role === 'assistant' ? (
+                  <div className="text-sm prose prose-sm max-w-none [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:mt-2 [&_h3]:mb-1">
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  </div>
+                ) : (
+                  <p className="text-sm">{msg.content}</p>
+                )}
                 {msg.source && msg.source !== 'error' && (
-                  <span className="text-xs opacity-70 mt-1 block">{msg.source === 'ai' ? 'Powered by AI' : 'Rule-based'}</span>
+                  <span className="text-xs opacity-70 mt-1 block">{msg.source === 'gemini' ? 'Powered by Gemini' : msg.source === 'ai' ? 'Powered by AI' : 'Rule-based'}</span>
                 )}
               </div>
             </motion.div>

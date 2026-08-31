@@ -1,11 +1,15 @@
 # Nutrinova
+# Shahriar
+
+
 
 AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
+
+
 
 🔗 **Live Demo:** [https://nutrinova-frontend.onrender.com/](https://nutrinova-frontend.onrender.com/)
 
 ## Tech Stack
-
 - **Frontend:** React (Vite), React Router, Axios, Recharts, Tailwind CSS
 - **Backend:** Node.js + Express.js (REST API)
 - **Database:** MongoDB with Mongoose ODM
@@ -13,7 +17,6 @@ AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 - **AI:** Rule-based nutrition engine with optional LLM API integration
 
 ## Features
-
 - JWT-based authentication (signup/login)
 - BMI calculator with WHO category classification and history
 - Personalized diet/meal plan generator (BMR → TDEE → macros → weekly plan)
@@ -27,6 +30,7 @@ AI-Assisted Diet Tracker & Meal Planner — a full-stack MERN application.
 - Goal setting with estimated timeline
 - Searchable food database with 50+ seeded items
 - Responsive UI (mobile + desktop)
+
 
 ## Project Structure
 
@@ -91,8 +95,8 @@ npm run seed
 
 This populates 50+ food items with realistic calorie/macro data.
 
-### 4. Start the app
 
+### 4. Start the app
 ```bash
 # Terminal 1: Backend
 cd server
