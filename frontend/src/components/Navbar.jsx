@@ -43,36 +43,34 @@ export default function Navbar() {
   return (
     <nav className="bg-nav-bg text-nav-text shadow-lg">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2">
-              <img src="/nutrinova-logo.png" alt="Nutrinova logo" className="h-10 w-10 rounded-full object-cover" />
-              <span className="text-xl font-bold">Nutrinova</span>
-            </Link>
-            {user && (
-              <>
-                <NavLink to="/dashboard" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Dashboard</NavLink>
-                <NavLink to="/bmi" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>BMI</NavLink>
-                <NavLink to="/meal-plan" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Meal Plan</NavLink>
-                <NavLink to="/log-meal" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Log Meal</NavLink>
-                <NavLink to="/food-details" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Food Details</NavLink>
-                <NavLink to="/checkin" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Weekly Check-In</NavLink>
-                <NavLink to="/progress" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Progress</NavLink>
-                <NavLink to="/ai-assistant" className={({ isActive }) => `px-3 py-1 rounded transition-colors duration-200 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>AI</NavLink>
-              </>
-            )}
-          </div>
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between h-16 gap-4">
+          <Link to="/" className="flex items-center gap-2 whitespace-nowrap shrink-0 -ml-2">
+            <img src="/nutrinova-logo.png" alt="Nutrinova logo" className="h-10 w-10 rounded-full object-cover" />
+            <span className="text-xl font-bold">Nutrinova</span>
+          </Link>
+          {user && (
+            <div className="flex items-center gap-1 ml-4 flex-1 min-w-0 overflow-x-auto no-scrollbar">
+              <NavLink to="/dashboard" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Dashboard</NavLink>
+              <NavLink to="/bmi" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>BMI</NavLink>
+              <NavLink to="/meal-plan" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Meal Plan</NavLink>
+              <NavLink to="/log-meal" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Log Meal</NavLink>
+              <NavLink to="/food-details" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Food Details</NavLink>
+              <NavLink to="/checkin" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Weekly Check-In</NavLink>
+              <NavLink to="/progress" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Progress</NavLink>
+              <NavLink to="/ai-assistant" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>AI</NavLink>
+            </div>
+          )}
+          <div className="flex items-center gap-3 shrink-0">
             <ThemeToggle />
             {user ? (
               <>
-                <Link to="/profile" className="hover:text-nav-hover">{user.name}</Link>
-                <button onClick={handleLogout} className="bg-nav-active px-3 py-1 rounded hover:bg-black/25">Logout</button>
+                <Link to="/profile" className="whitespace-nowrap hover:text-nav-hover">{user.name}</Link>
+                <button onClick={handleLogout} className="whitespace-nowrap bg-nav-active px-3 py-1 rounded hover:bg-black/25">Logout</button>
               </>
             ) : (
               <>
-                <Link to="/login" className="hover:text-nav-hover">Login</Link>
-                <Link to="/signup" className="bg-nav-active px-3 py-1 rounded hover:bg-black/25">Sign Up</Link>
+                <Link to="/login" className="whitespace-nowrap hover:text-nav-hover">Login</Link>
+                <Link to="/signup" className="whitespace-nowrap bg-nav-active px-3 py-1 rounded hover:bg-black/25">Sign Up</Link>
               </>
             )}
           </div>
