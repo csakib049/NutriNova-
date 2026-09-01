@@ -50,6 +50,15 @@ export default function Profile() {
     }
   };
 
+  const removeWater = async () => {
+    try {
+      const res = await api.delete('/water/latest');
+      setWaterToday(res.data.totalMl);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const handleExport = async () => {
     try {
       const res = await api.get('/export/report/csv', { responseType: 'blob' });
@@ -168,7 +177,10 @@ export default function Profile() {
               <div className="w-full bg-border rounded-full h-3 mt-3">
                 <div className="bg-blue-500 dark:bg-blue-400 h-3 rounded-full transition-all" style={{ width: `${Math.min(100, (waterToday / 2000) * 100)}%` }}></div>
               </div>
-              <button onClick={addWater} className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 text-sm">+ Add Glass (250ml)</button>
+              <div className="flex items-center justify-center gap-2 mt-3">
+                <button onClick={removeWater} className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 dark:hover:bg-red-500 text-sm">- Remove Glass (250ml)</button>
+                <button onClick={addWater} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 text-sm">+ Add Glass (250ml)</button>
+              </div>
             </div>
           </div>
 

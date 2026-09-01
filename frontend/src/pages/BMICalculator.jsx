@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { useAnimVariants } from '../lib/motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTheme } from '../context/ThemeContext';
-import { Calculator, ChartLine, ListChecks } from 'lucide-react';
+import { Calculator, ChartLine, ListChecks, Flame } from 'lucide-react';
+import BMRCalculator from '../components/BMRCalculator';
 
 function AnimatedDot({ cx, cy, r = 3, fill, stroke, index }) {
   const reduce = useReducedMotion();
@@ -75,10 +76,18 @@ export default function BMICalculator() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center gap-2 mb-8">
         <Calculator className="h-7 w-7 text-brand" />
-        <h1 className="text-3xl font-bold text-brand">BMI Calculator</h1>
+        <Flame className="h-7 w-7 text-brand" />
+        <h1 className="text-3xl font-bold text-brand">BMI & BMR Calculators</h1>
       </div>
+
+      {/* BMI Calculator left | BMI History right */}
       <div className="grid md:grid-cols-2 gap-8">
+        {/* BMI Calculator Card */}
         <div className="bg-surface p-6 rounded-xl shadow-md">
+          <div className="flex items-center gap-2 mb-4">
+            <Calculator className="h-5 w-5 text-brand" />
+            <h2 className="text-xl font-semibold">BMI Calculator</h2>
+          </div>
           <form onSubmit={handleCalculate} className="space-y-4">
             <div>
               <label className="block text-muted mb-1">Weight (kg)</label>
@@ -112,6 +121,8 @@ export default function BMICalculator() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* BMI History */}
         <div className="bg-surface p-6 rounded-xl shadow-md">
           <div className="flex items-center gap-2 mb-4">
             <ChartLine className="h-5 w-5 text-brand" />
@@ -135,8 +146,10 @@ export default function BMICalculator() {
           )}
         </div>
       </div>
+
+      {/* BMI Categories */}
       <motion.div
-        className="mt-8 bg-surface p-6 rounded-xl shadow-md"
+        className="bg-surface p-6 rounded-xl shadow-md mt-8"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
@@ -145,13 +158,29 @@ export default function BMICalculator() {
           <ListChecks className="h-5 w-5 text-brand" />
           BMI Categories (WHO)
         </motion.h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div className="grid grid-cols-2 gap-4 text-center">
           <motion.div variants={fadeUp} className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg"><span className="font-bold">Below 18.5</span><br />Underweight</motion.div>
           <motion.div variants={fadeUp} className="p-3 bg-brand-soft rounded-lg"><span className="font-bold">18.5 – 24.9</span><br />Normal</motion.div>
           <motion.div variants={fadeUp} className="p-3 bg-yellow-50 dark:bg-yellow-950 rounded-lg"><span className="font-bold">25 – 29.9</span><br />Overweight</motion.div>
           <motion.div variants={fadeUp} className="p-3 bg-red-50 dark:bg-red-950 rounded-lg"><span className="font-bold">30+</span><br />Obese</motion.div>
         </div>
       </motion.div>
+
+      {/* BMR Section */}
+      <div className="mt-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Flame className="h-5 w-5 text-brand" />
+          <h2 className="text-xl font-semibold">BMR Calculator</h2>
+        </div>
+        <div className="bg-surface rounded-xl shadow-md overflow-hidden">
+          <div className="p-6">
+            <p className="text-muted mb-4">
+              Basal Metabolic Rate (BMR) is the number of calories your body needs at rest to maintain basic functions like breathing, circulation, and cell production.
+            </p>
+            <BMRCalculator embedded />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -22,6 +22,36 @@ router.post('/', auth, async (req, res, next) => {
   }
 });
 
+router.delete('/latest', auth, async (req, res, next) => {
+  try {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    const endDate = new Date(date);
+    endDate.setHours(23, 59, 59, 999);
+
+    const latest = await WaterLog.findOne({
+      userId: req.user._id,
+      date: { $gte: date, $lte: endDate },
+    }).sort({ createdAt: -1 });
+
+    if (!latest) {
+      return res.status(404).json({ error: 'No water logs to remove' });
+    }
+
+    await latest.deleteOne();
+
+    const logs = await WaterLog.find({
+      userId: req.user._id,
+      date: { $gte: date, $lte: endDate },
+    }).lean();
+
+    const totalMl = logs.reduce((s, l) => s + l.amountMl, 0);
+    res.json({ totalMl });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/today', auth, async (req, res, next) => {
   try {
     const date = new Date();
