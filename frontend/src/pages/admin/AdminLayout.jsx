@@ -39,7 +39,7 @@ const links = [
 ];
 
 export default function AdminLayout({ children }) {
-  const { admin, logout } = useAdmin();
+  const { logout } = useAdmin();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -74,9 +74,6 @@ export default function AdminLayout({ children }) {
               <Link to="/" className="whitespace-nowrap flex items-center gap-1 hover:text-nav-hover text-sm">
                 <ExternalLink className="h-4 w-4" /> Site
               </Link>
-              {admin && (
-                <span className="whitespace-nowrap text-sm hidden sm:inline">{admin.username}</span>
-              )}
               <button onClick={handleLogout} className="whitespace-nowrap bg-nav-active px-3 py-1 rounded hover:bg-black/25 text-sm">Logout</button>
             </div>
           </div>
