@@ -51,7 +51,7 @@ export default function Navbar() {
           {user && (
             <div className="flex items-center gap-1 ml-4 flex-1 min-w-0 overflow-x-auto no-scrollbar">
               <NavLink to="/dashboard" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Dashboard</NavLink>
-              <NavLink to="/bmi" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>BMI</NavLink>
+              <NavLink to="/bmi" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>BMI & BMR</NavLink>
               <NavLink to="/meal-plan" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Meal Plan</NavLink>
               <NavLink to="/log-meal" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Log Meal</NavLink>
               <NavLink to="/food-details" className={({ isActive }) => `whitespace-nowrap px-2 py-1 rounded transition-colors duration-200 text-sm shrink-0 ${isActive ? 'bg-nav-active text-nav-text' : 'hover:text-nav-hover'}`}>Food Details</NavLink>
