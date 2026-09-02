@@ -9,7 +9,6 @@ const MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack'];
 
 export default function MealPlan() {
   const [plan, setPlan] = useState(null);
-  const [targets, setTargets] = useState(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState('');
@@ -60,7 +59,6 @@ export default function MealPlan() {
     try {
       const res = await api.post('/meal-plan/generate');
       setPlan(res.data.plan);
-      setTargets(res.data.targets);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to generate plan');
     } finally {
@@ -144,6 +142,7 @@ export default function MealPlan() {
       </div>
       {error && <div className="bg-danger-bg text-danger-strong p-3 rounded mb-4">{error}</div>}
 
+<<<<<<< Updated upstream
       {targets && (
         <div className="bg-surface p-4 rounded-xl shadow-md mb-6 grid grid-cols-4 gap-4 text-center">
           <div><span className="text-muted text-sm">Calories</span><p className="text-xl font-bold text-brand">{targets.calories}</p></div>
@@ -153,6 +152,8 @@ export default function MealPlan() {
         </div>
       )}
 
+=======
+>>>>>>> Stashed changes
       {!plan && !generating && (
         <div className="bg-surface p-8 rounded-xl shadow-md text-center">
           <p className="text-muted text-lg mb-4">No meal plan yet. Generate one to get started!</p>

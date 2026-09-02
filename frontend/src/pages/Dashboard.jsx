@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Flame, CircleGauge, LucideWeight, Droplet, Calculator, ClipboardList, ForkKnife, CalendarCheck, Activity, LucideTv } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ExerciseSection from '../components/ExerciseSection';
 import api from '../api/axios';
@@ -48,28 +46,19 @@ function VideoEmbed({ id, title }) {
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const [todayLogs, setTodayLogs] = useState(null);
   const [latestBMI, setLatestBMI] = useState(null);
   const [trend, setTrend] = useState(null);
   const [water, setWater] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { fadeUp, staggerContainer } = useAnimVariants();
-
-  const countCalories = useCountUp(todayLogs?.summary?.calories || 0);
-  const countBmi = useCountUp(latestBMI?.bmi || 0, { decimals: 1 });
-  const countWeight = useCountUp(trend?.latest?.weight || user?.weight || 0, { decimals: 1 });
-  const countWater = useCountUp((water?.totalMl || 0) / 1000, { decimals: 1 });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [logsRes, bmiRes, trendRes, waterRes] = await Promise.all([
-          api.get('/food-logs/daily'),
+        const [bmiRes, trendRes, waterRes] = await Promise.all([
           api.get('/bmi/latest'),
           api.get('/checkins/trend'),
           api.get('/water/today'),
         ]);
-        setTodayLogs(logsRes.data);
         setLatestBMI(bmiRes.data.record);
         setTrend(trendRes.data);
         setWater(waterRes.data);
@@ -90,34 +79,21 @@ export default function Dashboard() {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-brand mb-6">Dashboard</h1>
 
-      <motion.div
-        className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.div variants={fadeUp} className="bg-surface p-6 rounded-xl shadow-md">
-          <div className="flex items-center gap-2 mb-2">
-            <Flame className="h-4 w-4 text-brand" />
-            <h3 className="text-muted text-sm uppercase">Today's Calories</h3>
-          </div>
-          <p className="text-3xl font-bold mt-1">{countCalories}</p>
-          <p className="text-muted text-sm">protein: {todayLogs?.summary?.protein || 0}g · carbs: {todayLogs?.summary?.carbs || 0}g · fat: {todayLogs?.summary?.fat || 0}g</p>
-        </motion.div>
-        <motion.div variants={fadeUp} className="bg-surface p-6 rounded-xl shadow-md">
-          <div className="flex items-center gap-2 mb-2">
-            <CircleGauge className="h-4 w-4 text-brand" />
-            <h3 className="text-muted text-sm uppercase">Current BMI</h3>          </div>
-          <p className="text-3xl font-bold mt-1">{latestBMI?.bmi ? countBmi : 'N/A'}</p>
-          <p className="text-muted text-sm capitalize">{latestBMI?.category || 'Not calculated'}</p>
-        </motion.div>
-        <motion.div variants={fadeUp} className="bg-surface p-6 rounded-xl shadow-md">
-          <div className="flex items-center gap-2 mb-2">
-            <LucideWeight className="h-4 w-4 text-brand" />
-            <h3 className="text-muted text-sm uppercase">Latest Weight</h3>
-          </div>
-          <p className="text-3xl font-bold mt-1">{countWeight} kg</p>
-          <p className={`text-sm ${trend?.trend?.weight === 'improved' ? 'text-success' : trend?.trend?.weight === 'worsened' ? 'text-danger' : 'text-neutral'}`}>
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h3 className="text-gray-500 text-sm uppercase">Today's Calories</h3>
+          <p className="text-3xl font-bold mt-1">{todayLogs?.summary?.calories || 0}</p>
+          <p className="text-gray-500 text-sm">protein: {todayLogs?.summary?.protein || 0}g · carbs: {todayLogs?.summary?.carbs || 0}g · fat: {todayLogs?.summary?.fat || 0}g</p>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h3 className="text-gray-500 text-sm uppercase">Current BMI</h3>
+          <p className="text-3xl font-bold mt-1">{latestBMI?.bmi || 'N/A'}</p>
+          <p className="text-gray-500 text-sm capitalize">{latestBMI?.category || 'Not calculated'}</p>
+        </div>
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h3 className="text-gray-500 text-sm uppercase">Latest Weight</h3>
+          <p className="text-3xl font-bold mt-1">{trend?.latest?.weight || user?.weight || 'N/A'} kg</p>
+          <p className="text-gray-500 text-sm">
             {trend?.trend?.weight === 'improved' ? '↓ Trending down' : trend?.trend?.weight === 'worsened' ? '↑ Trending up' : 'Stable'}
           </p>
         </motion.div>
